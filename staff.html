@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCRP Game Staff Application</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background: #0056b3;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 5px;
+            }
+            .container {
+                padding: 15px;
+            }
+            input[type="text"], textarea {
+                font-size: 16px;
+            }
+            input[type="submit"] {
+                font-size: 18px;
+                padding: 14px;
+            }
+        }
+    </style>
+    <script>
+        async function submitForm(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const data = new FormData(form);
+            const formDataObj = {};
+            data.forEach((value, key) => {
+                formDataObj[key] = value;
+            });
+            
+            const webhookUrl = 'https://discord.com/api/webhooks/1328504035589886034/UatpM0EOTmZLDYTP_JW6wydh_TMZo1fu_X0J1BPgXkM6bUjNYaXx6yaDXANLzJiYYBGN';
+            const embed = {
+                title: "New Staff Application",
+                color: 5814783,
+                fields: [
+                    { name: "Discord User & ID", value: formDataObj.discord_user, inline: true },
+                    { name: "Roblox Username & Profile Link", value: formDataObj.roblox_username },
+                    { name: "AI Usage Acknowledgement", value: formDataObj.ai_usage },
+                    { name: "What makes you different from other applicants?", value: formDataObj.difference },
+                    { name: "Why should we choose you for NCRP Game Staff?", value: formDataObj.why_choose },
+                    { name: "Handling Staff Killing During Peacetime", value: formDataObj.peacetime_issue },
+                    { name: "Handling Disrespectful Player Asking for HR", value: formDataObj.disrespectful_player },
+                    { name: "Activity Level (1-10)", value: formDataObj.activity_level },
+                    { name: "Handling Unprofessional HR", value: formDataObj.unprofessional_hr },
+                    { name: "Questions for Ownership & HR Team", value: formDataObj.questions }
+                ]
+            };
+
+            const message = { embeds: [embed] };
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(message)
+                });
+                
+                if (response.ok) {
+                    alert('Application submitted successfully!');
+                    form.reset();
+                } else {
+                    throw new Error('Error submitting application');
+                }
+            } catch (error) {
+                console.error('Error sending message to Discord:', error);
+                alert('Error submitting application.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>NCRP Game Staff Application</h1>
+        <form onsubmit="submitForm(event)">
+            <div class="form-group">
+                <label for="discord_user">What's your Discord user & ID?</label>
+                <input type="text" id="discord_user" name="discord_user" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="roblox_username">What's your Roblox username and link to your Profile?</label>
+                <input type="text" id="roblox_username" name="roblox_username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="ai_usage">Do you understand that if you use AI Usage you will be blacklisted?</label>
+                <input type="text" id="ai_usage" name="ai_usage" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="difference">What makes you different from other applicants? (3+ Sentences)</label>
+                <textarea id="difference" name="difference" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="why_choose">Why should we choose you for NCRP Game Staff? (3+ Sentences)</label>
+                <textarea id="why_choose" name="why_choose" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="peacetime_issue">What would you do if you see another staff member killing when on Peacetime?</label>
+                <textarea id="peacetime_issue" name="peacetime_issue" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="disrespectful_player">How would you handle a person being disrespectful and keep asking for a HR, for no valid reason?</label>
+                <textarea id="disrespectful_player" name="disrespectful_player" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="activity_level">On a scale from 1-10 what is your activity?</label>
+                <input type="text" id="activity_level" name="activity_level" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="unprofessional_hr">How would you handle a HR being unprofessional?</label>
+                <textarea id="unprofessional_hr" name="unprofessional_hr" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="questions">Do you have any questions for ownership & HR team?</label>
+                <textarea id="questions" name="questions"></textarea>
+            </div>
+            
+            <p>If not, we wish you good luck on NCRP Game Staff Application!</p>
+            <p>Warm Regards,<br>Ownership and HR Team</p>
+            
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
